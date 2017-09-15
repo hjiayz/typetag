@@ -23,7 +23,7 @@ class Factory {
             return this;
         }
         this.define = (name) => {
-            typelist[name] = new StructType(name, define);
+            typelist[name] = new StructType(name, Object.assign(define));
             return this;
         }
     }

@@ -10,12 +10,13 @@ class Factory {
         let verify;
         this.verify = (func) => {
             verify = func;
+            this.define = (name) => {
+                typelist[name] = new RawType(name, verify);
+                return this;
+            }
             return this;
         }
-        this.define = (name) => {
-            typelist[name] = new RawType(name, verify);
-            return this;
-        }
+
     }
 }
 module.exports = Factory

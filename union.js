@@ -2,14 +2,6 @@ class UnionType {
     constructor(name, define) {
         let parse = (obj) => {
             let t = typeof obj;
-            if (t == "string") {
-                if (define[obj] === "literal") {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
             if (t != "object") return false;
             let keys = Object.keys(obj);
             if (keys.length !== 1) return false;
@@ -42,7 +34,7 @@ class Factory {
             return this;
         }
         this.define = (name) => {
-            typelist[name] = new UnionType(name, define);
+            typelist[name] = new UnionType(name, Object.assign({}, define));
             return this;
         }
     }

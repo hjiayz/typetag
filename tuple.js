@@ -20,10 +20,10 @@ class Factory {
         let define;
         this.set = (types) => {
             define = types;
-            return this;
-        }
-        this.define = (name) => {
-            typelist[name] = new TupleType(name, define);
+            this.define = (name) => {
+                typelist[name] = new TupleType(name, define);
+                return this;
+            }
             return this;
         }
     }

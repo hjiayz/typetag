@@ -16,11 +16,11 @@ class Factory {
         let ltype;
         this.set = (type) => {
             ltype = type;
-            return this;
-        }
-        this.define = (name) => {
-            if (undefined === ltype) throw "type of list is undefined"
-            typelist[name] = new ListType(name, ltype);
+            this.define = (name) => {
+                if (undefined === ltype) throw "type of list is undefined"
+                typelist[name] = new ListType(name, ltype);
+                return this;
+            }
             return this;
         }
     }
