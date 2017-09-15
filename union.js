@@ -2,6 +2,7 @@ class UnionType {
     constructor(name, define) {
         let parse = (obj) => {
             let t = typeof obj;
+            if (t == "string") return define[obj] === "Literal"
             if (t != "object") return false;
             let keys = Object.keys(obj);
             if (keys.length !== 1) return false;
@@ -30,7 +31,7 @@ class Factory {
     constructor(typelist) {
         let define = {};
         this.add = (name, type) => {
-            define[name] = type;
+            define[name] = type || "Literal";
             return this;
         }
         this.define = (name) => {

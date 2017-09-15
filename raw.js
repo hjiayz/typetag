@@ -7,11 +7,9 @@ class RawType {
 }
 class Factory {
     constructor(typelist) {
-        let verify;
         this.verify = (func) => {
-            verify = func;
             this.define = (name) => {
-                typelist[name] = new RawType(name, verify);
+                typelist[name] = new RawType(name, func);
                 return this;
             }
             return this;

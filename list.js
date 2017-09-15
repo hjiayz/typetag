@@ -13,12 +13,9 @@ class ListType {
 }
 class Factory {
     constructor(typelist) {
-        let ltype;
         this.set = (type) => {
-            ltype = type;
             this.define = (name) => {
-                if (undefined === ltype) throw "type of list is undefined"
-                typelist[name] = new ListType(name, ltype);
+                typelist[name] = new ListType(name, type);
                 return this;
             }
             return this;

@@ -17,11 +17,9 @@ class TupleType {
 }
 class Factory {
     constructor(typelist) {
-        let define;
         this.set = (types) => {
-            define = types;
             this.define = (name) => {
-                typelist[name] = new TupleType(name, define);
+                typelist[name] = new TupleType(name, types);
                 return this;
             }
             return this;
