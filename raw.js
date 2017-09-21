@@ -1,20 +1,20 @@
-class RawType {
-    constructor(name, verify) {
+let Type = require("./type.js")
+class RawType extends Type {
+    constructor(name, verify, isdebug) {
+        super(name, isdebug);
         this.is = (obj) => verify(obj)
-        this.name = name;
         this.meta = () => { type: "raw" };
     }
 }
 class Factory {
-    constructor(typelist) {
+    constructor(typelist, isdebug) {
         this.verify = (func) => {
             this.define = (name) => {
-                typelist[name] = new RawType(name, func);
+                typelist[name] = new RawType(name, func, isdebug);
                 return this;
             }
             return this;
         }
-
     }
 }
 module.exports = Factory

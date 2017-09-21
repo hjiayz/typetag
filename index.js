@@ -1,31 +1,21 @@
-let Union = require("./union.js");
-let Struct = require("./struct.js");
-let List = require("./list.js");
-let Tuple = require("./tuple.js");
+let Generic = require("./generic.js");
 let Raw = require("./raw.js");
+let Type = require("./type.js");
 class TypeTag {
-    constructor() {
+    constructor(debugmode) {
         let typelist = {};
         Object.defineProperties(this, {
-            union: {
-                get: () => new Union(typelist)
-            },
-            struct: {
-                get: () => new Struct(typelist)
-            },
-            list: {
-                get: () => new List(typelist)
-            },
-            tuple: {
-                get: () => new Tuple(typelist)
-            },
             raw: {
-                get: () => new Raw(typelist)
+                get: () => new Raw(typelist, debugmode)
+            },
+            generic: {
+                get: () => new Generic(typelist, debugmode)
             },
             index: {
                 get: () => typelist
             }
         })
+        this.raw.verify((o) => o instanceof Type).define("type");
     }
 }
 module.exports = TypeTag;
