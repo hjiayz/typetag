@@ -38,7 +38,7 @@ class InstanceFactory {
 class GenericType extends Type {
     constructor(name, verify, paramtype, typelist, isdebug) {
         super(name);
-        this.new = () => new InstanceFactory(this.name, typelist, isdebug);
+        Object.defineProperty(this, "new", { get: () => new InstanceFactory(this.name, typelist, isdebug) });
         this.is = (obj) => false;
         this.meta = {
             type: "Generic",
@@ -47,10 +47,6 @@ class GenericType extends Type {
                 paramtype: paramtype
             }
         };
-        this.assert = (obj) => {
-            if (isdebug && (!this.is(obj))) throw TypeError(`not a ${this.name}`);
-            return obj;
-        }
     }
 }
 class Factory {
