@@ -15,6 +15,10 @@ class TypeTag {
                 get: () => typelist
             }
         })
+        this.plugin = (plugin) => {
+            plugin(this, debugmode);
+            return this;
+        }
         this.raw.verify((o) => o instanceof Type).define("type");
     }
 }
