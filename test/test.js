@@ -6,5 +6,5 @@ assert(i.null.is(null));
 t.raw.verify((o) => typeof o == "function").define("func");
 assert(i.func.is(() => 1));
 t.generic.verify((o, p) => Array.isArray(o) && o.every((v) => p.is(v))).paramtype(i.type).define("list");
-i.list.new.param(i.func).factory(Array).define("flist");
-i.flist.assert(i.flist.new(() => 1, () => 2));
+i.list.new(i.func, "flist");
+i.flist.assert([() => 1, () => 2]);

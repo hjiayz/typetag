@@ -1,44 +1,30 @@
 let Type = require("./type.js")
 class InstanceType extends Type {
-    constructor(name, type, verify, param, factory, isdebug) {
+    constructor(name, type, verify, param, isdebug) {
         super(name, isdebug);
-        this.new = factory;
         this.is = (obj) => verify(obj, param);
         this.meta = {
             type: type,
-            param: param,
-            factory: factory,
-        }
-    }
-}
-class InstanceFactory {
-    constructor(type, typelist, isdebug) {
-        let { verify, paramtype } = typelist[type].meta.define;
-        let param, factory;
-        this.param = (iparam) => {
-            if (isdebug) {
-                paramtype.assert(iparam);
-            };
-            param = iparam;
-            return this;
-        }
-        this.factory = (ifactory) => {
-            if (isdebug && (typeof ifactory != "function")) throw new TypeError("not a function");
-            factory = ifactory;
-            return this;
-        }
-        this.define = (name) => {
-            if (isdebug && (param === undefined)) throw new TypeError("param is undefined")
-            if (isdebug && (factory === undefined)) throw new TypeError("factory is undefined")
-            typelist[name] = new InstanceType(name, type, verify, param, factory, isdebug);
-            return this;
+            param: param
         }
     }
 }
 class GenericType extends Type {
     constructor(name, verify, paramtype, typelist, isdebug) {
         super(name);
-        Object.defineProperty(this, "new", { get: () => new InstanceFactory(this.name, typelist, isdebug) });
+        this.new = (param, insname) => {
+            if (isdebug) {
+                paramtype.assert(param);
+            };
+            if (insname === undefined) {
+                insname = this.insname(param)
+            }
+            typelist[insname] = new InstanceType(insname, name, verify, param, isdebug);
+            return this;
+        }
+        this.insname = (param) => {
+            return `${name}<${JSON.stringify(param)}>`
+        }
         this.is = (obj) => false;
         this.meta = {
             type: "Generic",
