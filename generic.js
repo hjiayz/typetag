@@ -15,15 +15,10 @@ class GenericType extends Type {
         this.new = (param, insname) => {
             if (isdebug) {
                 paramtype.assert(param);
+                if (typeof insname != "string") throw new TypeError("not a string");
             };
-            if (insname === undefined) {
-                insname = this.insname(param)
-            }
             typelist[insname] = new InstanceType(insname, name, verify, param, isdebug);
             return this;
-        }
-        this.insname = (param) => {
-            return `${name}<${JSON.stringify(param)}>`
         }
         this.is = (obj) => false;
         this.meta = {
