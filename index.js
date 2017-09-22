@@ -15,7 +15,7 @@ class TypeTag {
                 get: () => typelist
             }
         })
-        this.plugin = (plugin) => {
+        this.load = (plugin) => {
             plugin(this, debugmode);
             return this;
         }
