@@ -15,7 +15,7 @@ class TypeTag {
             plugin(this, debugmode);
             return this;
         }
-        this.raw((o) => o instanceof Type).define("type");
+        this.type = this.raw((o) => o instanceof Type);
     }
 }
 module.exports = TypeTag;
