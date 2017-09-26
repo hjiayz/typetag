@@ -1,54 +1,40 @@
 let Type = require("./type.js")
 class InstanceType extends Type {
-    constructor(name, type, verify, param, isdebug) {
-        super(name, isdebug);
+    constructor(type, param, isdebug, index) {
+        super(isdebug);
+        let verify = type.meta.verify;
         this.is = (obj) => verify(obj, param);
         this.meta = {
             type: type,
             param: param
         }
-    }
-}
-class GenericType extends Type {
-    constructor(name, verify, paramtype, typelist, isdebug) {
-        super(name);
-        this.new = (param, insname) => {
-            if (isdebug) {
-                paramtype.assert(param);
-                if (typeof insname != "string") throw new TypeError("not a string");
-            };
-            typelist[insname] = new InstanceType(insname, name, verify, param, isdebug);
-            return this;
-        }
-        this.is = (obj) => false;
-        this.meta = {
-            type: "Generic",
-            define: {
-                verify: verify,
-                paramtype: paramtype
-            }
-        };
-    }
-}
-class Factory {
-    constructor(typelist, isdebug) {
-        let verify, paramtype;
-        this.verify = (iverify) => {
-            if (isdebug && (typeof iverify != "function")) throw new TypeError("not a function");
-            verify = iverify;
-            return this;
-        }
-        this.paramtype = (iparamtype) => {
-            if (isdebug && (!(iparamtype instanceof Type))) throw new TypeError("not a Type");
-            paramtype = iparamtype;
-            return this;
-        }
         this.define = (name) => {
-            if (isdebug && (verify === undefined)) throw new TypeError("verify is undefined")
-            if (isdebug && (paramtype === undefined)) throw new TypeError("paramtype is undefined")
-            typelist[name] = new GenericType(name, verify, paramtype, typelist, isdebug);
-            return this;
+            let named = new InstanceType(type, param, isdebug, index);
+            named.meta.name = name;
+            index[name] = named;
         }
     }
 }
-module.exports = Factory
+module.exports = (verify, paramtype, isdebug, index) => {
+    if ((isdebug) && (typeof verify != "function")) {
+        throw new TypeError("not a function");
+    }
+    if ((isdebug) && (!(paramtype instanceof Type))) {
+        throw new TypeError("not a Type");
+    }
+    let generic = (param) => {
+        paramtype.assert(param);
+        return new InstanceType(generic, param, isdebug, index)
+    }
+    generic.meta = {
+        type: "Generic",
+        verify: verify,
+        paramtype: paramtype,
+    }
+    generic.define = (name) => {
+        let named = (param) => generic(param);
+        named.meta = Object.assign({}, generic.meta, { name: name });
+        index[name] = named;
+    }
+    return generic;
+}
