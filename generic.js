@@ -12,6 +12,7 @@ class InstanceType extends Type {
             let named = new InstanceType(type, param, isdebug, index);
             named.meta.name = name;
             index[name] = named;
+            return this;
         }
     }
 }
@@ -22,19 +23,22 @@ module.exports = (verify, paramtype, isdebug, index) => {
     if ((isdebug) && (!(paramtype instanceof Type))) {
         throw new TypeError("not a Type");
     }
-    let generic = (param) => {
+    let generic = (param, type) => {
         paramtype.assert(param);
-        return new InstanceType(generic, param, isdebug, index)
+        return new InstanceType(type, param, isdebug, index)
     }
-    generic.meta = {
+    let un = (param) => generic(param, un);
+    un.meta = {
         type: "Generic",
         verify: verify,
         paramtype: paramtype,
     }
-    generic.define = (name) => {
-        let named = (param) => generic(param);
-        named.meta = Object.assign({}, generic.meta, { name: name });
+    un.define = (name) => {
+        let named = (param) => generic(param, named);
+        named.meta = Object.assign({}, un.meta, { name: name });
+        named.define = un.define;
         index[name] = named;
+        return named;
     }
-    return generic;
+    return un;
 }

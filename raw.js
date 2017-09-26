@@ -8,7 +8,7 @@ class RawType extends Type {
             let named = new RawType(verify, isdebug, index);
             named.meta.name = name;
             index[name] = named;
-            return this;
+            return named;
         }
     }
 }
