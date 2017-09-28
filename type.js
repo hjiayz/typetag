@@ -1,8 +1,8 @@
 module.exports = class {
     constructor(isdebug) {
         this.is = (obj) => false;
-        this.assert = (obj) => {
-            if ((isdebug) && (!this.is(obj))) throw new TypeError(`not a ${this.name}`);
+        this.assert = (obj, msg) => {
+            if ((isdebug) && (!this.is(obj))) throw new TypeError(msg || `not a ${this.name}`);
             return this;
         }
     }
