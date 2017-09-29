@@ -5,7 +5,8 @@ let Type = module.exports = class {
             if ((isdebug) && (!this.is(obj))) throw new TypeError(msg || `not a ${this.meta.name}`);
             return this;
         }
-        let igname = (o) => Object.assign({}, o, { name: "" })
+        let igname = (o) => Object.assign({}, o, { name: "" });
+        let igeq = (a, b) => eq(igname(a.meta), igname(b.meta));
         let eq = (a, b) => {
             if (typeof a != typeof b) return false;
             if (typeof a == "object") {
@@ -23,12 +24,12 @@ let Type = module.exports = class {
                 }
                 return true;
             }
-            if ((typeof a == "function") && (a.meta !== undefined) && (eq(igname(a.meta), igname(b.meta)))) return true
+            if ((typeof a == "function") && (a.meta !== undefined) && (igeq(a, b))) return true
             return a === b;
         }
         this.eq = (tp) => {
             if (!(tp instanceof Type)) return false;
-            return eq(igname(this.meta), igname(tp.meta));
+            return igeq(this, tp);
         }
     }
 }
