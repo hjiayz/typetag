@@ -24,7 +24,7 @@ let Type = module.exports = class {
                 }
                 return true;
             }
-            if ((typeof a == "function") && (a.meta !== undefined) && (igeq(a, b))) return true
+            if ((typeof a == "function") && (a.meta !== undefined) && (b.meta !== undefined) && (igeq(a, b))) return true
             return a === b;
         }
         this.eq = (tp) => {
