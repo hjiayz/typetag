@@ -16,6 +16,7 @@ class TypeTag {
             return this;
         }
         this.type = this.raw((o) => o instanceof Type);
+        this.generictype = this.raw((o) => (typeof o == "function") && (o.meta !== undefined) && (o.meta.type === "Generic"));
     }
 }
 module.exports = TypeTag;
