@@ -16,5 +16,3 @@ assert(i.flist.eq(i.fflist));
 assert(i.flist.eq(i.fllist));
 assert(i.func.eq(i.ffunc));
 assert(i.func.eq(func));
-t.generictype.assert(i.list, "not generic type");
-assert(!t.generictype.is(i.flist));
