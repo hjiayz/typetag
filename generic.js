@@ -14,6 +14,11 @@ class InstanceType extends Type {
             index[name] = named;
             return this;
         }
+        this.toJSON = () => {
+            let res = {};
+            res[type.toJSON()] = param;
+            return res;
+        }
     }
 }
 module.exports = (verify, paramtype, isdebug, index) => {
@@ -38,6 +43,7 @@ module.exports = (verify, paramtype, isdebug, index) => {
         named.meta = Object.assign({}, un.meta, { name: name });
         named.define = un.define;
         index[name] = named;
+        named.toJSON = () => name;
         return named;
     }
     return un;

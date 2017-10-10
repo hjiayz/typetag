@@ -16,3 +16,4 @@ assert(i.flist.eq(i.fflist));
 assert(i.flist.eq(i.fllist));
 assert(i.func.eq(i.ffunc));
 assert(i.func.eq(func));
+assert(JSON.stringify(i.flist) === `{"list":"func"}`);
