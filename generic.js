@@ -46,5 +46,8 @@ module.exports = (verify, paramtype, isdebug, index) => {
         named.toJSON = () => name;
         return named;
     }
+    if (isdebug) {
+        un.toJSON = () => { throw new Error("anonymous generic Type."); }
+    }
     return un;
 }

@@ -11,6 +11,9 @@ class RawType extends Type {
             named.toJSON = () => name;
             return named;
         }
+        if (isdebug) {
+            this.toJSON = () => { throw new Error("anonymous raw Type."); }
+        }
     }
 }
 module.exports = (verify, isdebug, index) => new RawType(verify, isdebug, index);
