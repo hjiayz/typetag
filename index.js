@@ -13,9 +13,9 @@ class TypeTag {
         this.raw = (verify) => raw(verify, debugmode, this.index);
         this.generic = (verify, paramtype) => generic(verify, paramtype, debugmode, this.index);
         this.load = (plugin) => {
-            if (debugmode && plugins[plugin.name]) throw new Error(`Plugin ${plugin.name} has been loaded.`)
+            if (debugmode && plugins[plugin.tag]) throw new Error(`Plugin ${plugin.name} has been loaded.`)
             plugin(this, debugmode);
-            plugins[plugin.name] = true;
+            plugins[plugin.tag] = true;
             return this;
         }
         this.type = this.raw((o) => o instanceof Type).define("type", (o) => {
