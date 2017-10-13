@@ -4,11 +4,12 @@ class RawType extends Type {
         super(isdebug);
         this.is = (obj) => verify(obj)
         this.meta = { type: "raw", verify: verify };
-        this.define = (name) => {
+        this.define = (name, parser) => {
             let named = new RawType(verify, isdebug, index);
             named.meta.name = name;
             index[name] = named;
             named.toJSON = () => name;
+            named.parse = parser;
             return named;
         }
         if (isdebug) {

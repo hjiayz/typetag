@@ -9,5 +9,9 @@ let Type = module.exports = class {
             if (!(tp instanceof Type)) return false;
             return JSON.stringify(this) == JSON.stringify(tp);
         }
+        this.parse = (o) => {
+            if (!this.is(o)) throw new Error("parse error!");
+            return o;
+        }
     }
 }

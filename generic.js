@@ -8,10 +8,14 @@ class InstanceType extends Type {
             type: type,
             param: param
         }
-        this.define = (name) => {
+        this.define = (name, parser) => {
             let named = new InstanceType(type, param, isdebug, index);
             named.meta.name = name;
             index[name] = named;
+            if (!!parser) {
+                named.parse = parser;
+            }
+            this.toJSON = () => name;
             return this;
         }
         this.toJSON = () => {
