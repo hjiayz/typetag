@@ -9,7 +9,9 @@ class RawType extends Type {
             named.meta.name = name;
             index[name] = named;
             named.toJSON = () => name;
-            named.parse = parser;
+            if (!!parser) {
+                named.parse = parser;
+            }
             return named;
         }
         if (isdebug) {
