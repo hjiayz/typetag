@@ -15,7 +15,7 @@ class InstanceType extends Type {
             if (!!parser) {
                 named.parse = parser;
             }
-            this.toJSON = () => name;
+            named.toJSON = () => name;
             return this;
         }
         this.toJSON = () => {

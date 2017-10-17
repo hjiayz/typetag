@@ -12,8 +12,8 @@ i.llist(i.func).define("fllist").define("ffllist");
 i.list(i.func).define("flist").define("fflist");
 i.flist.assert([() => 1, () => 2]);
 assert(i.null.eq(i.null))
-assert(i.flist.eq(i.fflist));
+assert(!i.flist.eq(i.fflist));
 assert(!i.flist.eq(i.fllist));
 assert(!i.func.eq(i.ffunc));
-assert(JSON.stringify(i.list(i.flist)) === `{"list":{"list":"func"}}`);
-assert(t.type.parse(JSON.parse(`{"list":{"list":"func"}}`)).eq(i.list(i.flist)))
+assert(JSON.stringify(i.list(i.list(i.func))) === `{"list":{"list":"func"}}`);
+assert(t.type.parse(JSON.parse(`{"list":{"list":"func"}}`)).eq(i.list(i.list(i.func))))
